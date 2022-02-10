@@ -10,7 +10,7 @@ async function bootstrap() {
   const logger = new Logger('NestApplication');
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Project Name API')
+    .setTitle('ioasys cam - Desafio final')
     .setVersion('1')
     .build();
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);

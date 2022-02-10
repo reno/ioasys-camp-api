@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { BcryptProvider } from '@shared/providers/EncryptProvider/bcrypt.provider';
 
-import { CreateUserController } from '@modules/users/contexts/createUser/createUser.controller';
-import { CreateUserService } from '@modules/users/contexts/createUser/createUser.service';
+import { UserController } from '@modules/users/user.controller';
+import { UserService } from '@modules/users/user.service';
 import { UserRepository } from '@modules/users/repository/user.repository';
 
 @Module({
@@ -14,8 +14,8 @@ import { UserRepository } from '@modules/users/repository/user.repository';
   ],
   providers: [
     { provide: 'ENCRYPT_PROVIDER', useClass: BcryptProvider },
-    CreateUserService,
+    UserService,
   ],
-  controllers: [CreateUserController],
+  controllers: [UserController],
 })
 export class UserModule {}
