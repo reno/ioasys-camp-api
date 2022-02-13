@@ -3,11 +3,11 @@ import envConfig from '@config/env';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from '@modules/users/user.module';
-
+import { AuthModule } from '@modules/auth/auth.module';
 import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston';
-
 import * as path from 'path';
 import * as winston from 'winston';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -34,7 +34,8 @@ import * as winston from 'winston';
       synchronize: false,
       entities: [path.join(__dirname, '**', '*.entity.{ts,js}')],
     }),
-    UserModule,
+    AuthModule,
+    UserModule
   ],
   controllers: [],
   providers: [],

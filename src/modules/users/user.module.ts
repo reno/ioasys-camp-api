@@ -13,7 +13,6 @@ import { UserRepository } from '@modules/users/repository/user.repository';
     BcryptProvider,
   ],
   providers: [
-    //{ provide: 'ENCRYPT_PROVIDER', useClass: BcryptProvider },
     BcryptProvider,
     UserService,
   ],
