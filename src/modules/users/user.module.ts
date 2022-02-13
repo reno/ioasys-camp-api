@@ -13,9 +13,11 @@ import { UserRepository } from '@modules/users/repository/user.repository';
     BcryptProvider,
   ],
   providers: [
-    { provide: 'ENCRYPT_PROVIDER', useClass: BcryptProvider },
+    //{ provide: 'ENCRYPT_PROVIDER', useClass: BcryptProvider },
+    BcryptProvider,
     UserService,
   ],
   controllers: [UserController],
+  exports: [UserService]
 })
 export class UserModule {}

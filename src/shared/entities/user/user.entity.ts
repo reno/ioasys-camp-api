@@ -24,6 +24,14 @@ export class User {
   public id: string;
 
   @ApiProperty()
+  @Column({ type: 'varchar', nullable: false, unique: true  })
+  public username: string;
+
+  @Column({ type: 'varchar', nullable: false})
+  @Exclude()
+  public password: string;
+
+  @ApiProperty()
   @Column({ name: 'first_name', type: 'varchar', nullable: false })
   public firstName: string;
 
@@ -34,11 +42,7 @@ export class User {
   @ApiProperty()
   @Column({ type: 'varchar', nullable: false, unique: true  })
   public email: string;
-
-  @Column({ type: 'varchar', nullable: false})
-  @Exclude()
-  public password: string;
-
+  
   @ApiProperty()
   @Column({ type: 'varchar', nullable: false })
   public address: string;

@@ -5,9 +5,12 @@ import { CreateUserDTO } from '@shared/dtos/user/createUser.dto';
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
+  async findByUsername(username: string): Promise<User | undefined> {
+    return await this.findOne({ where: { username } });
+  }
+
   async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.findOne({ email });
-    return user;
+    return await this.findOne({ where: { email } });
   }
 
   async findById(id: string): Promise<User | undefined> {

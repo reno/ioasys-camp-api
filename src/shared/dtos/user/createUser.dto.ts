@@ -20,6 +20,11 @@ export class CreateUserDTO {
   public lastName: string;
  
   @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  public username: string;
+
+  @ApiProperty()
   @IsEmail()
   @IsNotEmpty()
   public email: string;

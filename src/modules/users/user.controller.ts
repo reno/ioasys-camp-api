@@ -21,7 +21,7 @@ import { UserGuard } from '@shared/guards/user.guard';
 import { User } from '@shared/entities/user/user.entity';
 import { UserService } from './user.service';
 import { CreateUserDTO } from '@shared/dtos/user/createUser.dto';
-import { UpdateUserDto } from '@shared/dtos/user/updateUser.dto';
+import { UpdateUserDTO } from '@shared/dtos/user/updateUser.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -35,7 +35,7 @@ export class UserController {
   }
 
   @Get(':id')
-  //@UseGuards(AuthGuard('jwt'), UserGuard)
+  @UseGuards(AuthGuard('jwt')) // UserGuard
   async findOne(@Param('id') id: string) {
     const user = await this.userService.findOne({id});
     return instanceToInstance(user);
@@ -47,20 +47,20 @@ export class UserController {
   @ApiBadRequestResponse({
     description: 'This will be returned when has validation error',
   })
-  public async create(@Body() CreateUserDTO: CreateUserDTO) {
-    const user = await this.userService.create(CreateUserDTO);
+  public async create(@Body() createUserDTO: CreateUserDTO) {
+    const user = await this.userService.create(createUserDTO);
     return instanceToInstance(user);
   }
 
   @Patch(':id')
-  //@UseGuards(AuthGuard('jwt'), UserGuard)
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto,){
-    const user = await this.userService.update(id, updateUserDto);
+  @UseGuards(AuthGuard('jwt'), UserGuard)
+  async update(@Param('id') id: string, @Body() updateUserDTO: UpdateUserDTO,){
+    const user = await this.userService.update(id, updateUserDTO);
     return instanceToInstance(user);
   }
   
   @Delete(':id')
-  //@UseGuards(AuthGuard('jwt'), UserGuard)
+  @UseGuards(AuthGuard('jwt'), UserGuard)
   async delete(@Param('id') id: string) {
     const user = await this.userService.remove(id);
     return instanceToInstance(user);
