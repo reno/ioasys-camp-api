@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { User } from '@shared/entities/user/user.entity';
+import { User, UserRole } from '@shared/entities/user/user.entity';
 import { CreateUserDTO } from '@shared/dtos/user/createUser.dto';
 
 @EntityRepository(User)
@@ -19,6 +19,12 @@ export class UserRepository extends Repository<User> {
 
   async createUser(createUserDTO: CreateUserDTO): Promise<User> {
     const user = this.create(createUserDTO);
+    return this.save(user);
+  }
+
+  async createAdmin(createUserDTO: CreateUserDTO): Promise<User> {
+    const user = this.create(createUserDTO);
+    user.role = UserRole.ADMIN;
     return this.save(user);
   }
 }

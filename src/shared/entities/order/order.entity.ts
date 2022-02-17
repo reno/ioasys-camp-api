@@ -17,6 +17,10 @@ export class Order {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
   @ApiProperty()
   @CreateDateColumn({ name: 'created_at' })
   public createdAt: Date;
@@ -27,8 +31,4 @@ export class Order {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   public deletedAt: Date;
-
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'user_id' })
-  user: User;
 }

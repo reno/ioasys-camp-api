@@ -18,6 +18,7 @@ import {
 import { instanceToInstance } from 'class-transformer';
 import { AuthGuard } from '@nestjs/passport';
 import { UserGuard } from '@shared/guards/user.guard';
+import { AdminGuard } from '@shared/guards/admin.guard';
 import { User } from '@shared/entities/user/user.entity';
 import { UserService } from './user.service';
 import { CreateUserDTO } from '@shared/dtos/user/createUser.dto';
@@ -35,7 +36,7 @@ export class UserController {
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard('jwt')) // UserGuard
+  @UseGuards(AuthGuard('jwt'), UserGuard)  
   async findOne(@Param('id') id: string) {
     const user = await this.userService.findOne({id});
     return instanceToInstance(user);
@@ -63,6 +64,18 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'), UserGuard)
   async delete(@Param('id') id: string) {
     const user = await this.userService.remove(id);
+    return instanceToInstance(user);
+  }
+
+  @Post('admin')
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  @HttpCode(HttpStatus.CREATED)
+  @ApiCreatedResponse({ type: User })
+  @ApiBadRequestResponse({
+    description: 'This will be returned when has validation error',
+  })
+  public async createAdmin(@Body() createUserDTO: CreateUserDTO) {
+    const user = await this.userService.createAdmin(createUserDTO);
     return instanceToInstance(user);
   }
 }

@@ -51,13 +51,15 @@ export class UserService {
   }
 
   async create(createUserDTO: CreateUserDTO): Promise<User> {
-    const { email } = createUserDTO;
-    const userExists = await this.userRepository.findByEmail(email);
-    if (userExists) {
-      throw new ConflictException(alreadyExists('email'));
+    if (await this._checkUnique(createUserDTO)) {
+      return await this.userRepository.createUser(createUserDTO);
     }
-    const user = await this.userRepository.createUser(createUserDTO);
-    return user;
+  }
+
+  async createAdmin(createUserDTO: CreateUserDTO): Promise<User> {
+    if (await this._checkUnique(createUserDTO)) {
+      return await this.userRepository.createAdmin(createUserDTO);
+    }
   }
 
   async update(id: string, updateUserDTO: UpdateUserDTO): Promise<User> {
@@ -81,5 +83,18 @@ export class UserService {
     }
     await this.userRepository.softDelete({ id });
     return user;
+  }
+
+  private async _checkUnique(createUserDTO: CreateUserDTO): Promise<Boolean> {
+    const { username, email } = createUserDTO;
+    const usernameExists = await this.userRepository.findByUsername(username);
+    if (usernameExists) {
+      throw new ConflictException(alreadyExists('username'));
+    }
+    const emailExists = await this.userRepository.findByEmail(email);
+    if (emailExists) {
+      throw new ConflictException(alreadyExists('email'));
+    }
+    return true;
   }
 }
