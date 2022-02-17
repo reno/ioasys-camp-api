@@ -79,7 +79,7 @@ export class UserService {
     if (!user) {
       throw new HttpException("User doesn't exist", HttpStatus.BAD_REQUEST);
     }
-    await this.userRepository.delete({ id });
+    await this.userRepository.softDelete({ id });
     return user;
   }
 }
