@@ -24,7 +24,7 @@ export class Product {
 
   @ApiProperty()
   @Column({ type: 'decimal', nullable: false })
-  public price: string;
+  public price: number;
 
   @ApiProperty()
   @CreateDateColumn({ name: 'created_at' })
