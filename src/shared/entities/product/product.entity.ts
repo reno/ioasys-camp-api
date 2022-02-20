@@ -6,7 +6,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { ProductInventory } from './inventory.entity';
 
 @Entity('products')
 export class Product {
@@ -25,6 +27,13 @@ export class Product {
   @ApiProperty()
   @Column({ type: 'decimal', nullable: false })
   public price: number;
+
+  @ApiProperty()
+  @OneToMany(() => ProductInventory, (inventory) => inventory.product, {
+    eager: true,
+    cascade: ['insert', 'update', 'soft-remove'],
+  })
+  inventories: ProductInventory[];
 
   @ApiProperty()
   @CreateDateColumn({ name: 'created_at' })

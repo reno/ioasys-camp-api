@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import envConfig from '@config/env';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from '@modules/users/user.module';
-import { AuthModule } from '@modules/auth/auth.module';
 import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import * as path from 'path';
 import * as winston from 'winston';
+import { UserModule } from '@modules/users/user.module';
+import { ProductModule } from '@modules/core/product.module';
+import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import * as winston from 'winston';
       entities: [path.join(__dirname, '**', '*.entity.{ts,js}')],
     }),
     AuthModule,
+    ProductModule,
     UserModule
   ],
   controllers: [],

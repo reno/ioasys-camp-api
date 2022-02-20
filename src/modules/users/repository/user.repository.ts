@@ -14,16 +14,16 @@ export class UserRepository extends Repository<User> {
   }
 
   async findById(id: string): Promise<User | undefined> {
-    return this.findOne(id);
+    return await this.findOne(id);
   }
 
   async createUser(createUserDTO: CreateUserDTO): Promise<User> {
-    const user = this.create(createUserDTO);
+    const user = await this.create(createUserDTO);
     return this.save(user);
   }
 
   async createAdmin(createUserDTO: CreateUserDTO): Promise<User> {
-    const user = this.create(createUserDTO);
+    const user = await this.create(createUserDTO);
     user.role = UserRole.ADMIN;
     return this.save(user);
   }
