@@ -10,6 +10,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -17,6 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateProductDTO } from '@shared/dtos/product/createProduct.dto';
 import { Product } from '@shared/entities/product/product.entity';
+import { AdminGuard } from '@shared/guards/admin.guard';
 import { instanceToInstance } from 'class-transformer';
 import { ProductService } from './product.service';
 
@@ -38,6 +40,7 @@ export class ProductController {
   }
 
   @Post()
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
   @HttpCode(HttpStatus.CREATED)
   @ApiCreatedResponse({ type: Product })
   @ApiBadRequestResponse({
@@ -45,6 +48,13 @@ export class ProductController {
   })
   public async create(@Body() createProductDTO: CreateProductDTO) {
     const product = await this.productService.create(createProductDTO);
+    return instanceToInstance(product);
+  }
+  
+  @Delete(':id')
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  async delete(@Param('id') id: string) {
+    const product = await this.productService.remove(id);
     return instanceToInstance(product);
   }
 }

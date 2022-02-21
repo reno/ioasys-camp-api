@@ -31,4 +31,13 @@ export class ProductService {
     let product = await this.productRepository.create(createProductDTO);
     return await this.productRepository.save(product);
   }
+
+  async remove(id: string): Promise<Product> {
+    const product: Product = await this.productRepository.findById(id);
+    if (!product) {
+      throw new HttpException("Product doesn't exist", HttpStatus.BAD_REQUEST);
+    }
+    await this.productRepository.softDelete({ id });
+    return product;
+  }
 }
