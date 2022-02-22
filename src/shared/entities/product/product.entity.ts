@@ -32,6 +32,7 @@ export class Product {
   @OneToMany(() => ProductInventory, (inventory) => inventory.product, {
     eager: true,
     cascade: ['insert', 'update', 'soft-remove'],
+    onDelete: 'CASCADE',
   })
   inventories: ProductInventory[];
 
