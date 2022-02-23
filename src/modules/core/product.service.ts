@@ -9,6 +9,7 @@ import { ProductRepository } from './repository/product.repository';
 import { InventoryRepository } from './repository/inventory.repository';
 import { Product } from '@shared/entities/product/product.entity';
 import { CreateProductDTO } from '@shared/dtos/product/createProduct.dto';
+import { PG_DUPLICATED_ERROR } from '@shared/constants/errors';
 
 @Injectable()
 export class ProductService {
@@ -28,8 +29,15 @@ export class ProductService {
   }
 
   async create(createProductDTO: CreateProductDTO): Promise<Product> {
-    let product = await this.productRepository.create(createProductDTO);
-    return await this.productRepository.save(product);
+    try {
+      let product = await this.productRepository.create(createProductDTO);
+      return await this.productRepository.save(product);
+    } catch (error) {
+      if (error.code === PG_DUPLICATED_ERROR) {
+        throw new ConflictException('Product name already exists');
+      }
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   async remove(id: string): Promise<Product> {

@@ -8,6 +8,7 @@ import * as winston from 'winston';
 import { UserModule } from '@modules/users/user.module';
 import { ProductModule } from '@modules/core/product.module';
 import { AuthModule } from '@modules/auth/auth.module';
+import { OrderModule } from '@modules/orders/order.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { AuthModule } from '@modules/auth/auth.module';
       entities: [path.join(__dirname, '**', '*.entity.{ts,js}')],
     }),
     AuthModule,
+    OrderModule,
     ProductModule,
     UserModule
   ],

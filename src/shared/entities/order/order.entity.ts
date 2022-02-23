@@ -7,9 +7,11 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   ManyToOne,
-  JoinColumn
+  JoinColumn,
+  OneToMany
 } from 'typeorm';
 import { User } from '../user/user.entity';
+import { OrderItem } from './item.entity';
 
 @Entity('orders')
 export class Order {
@@ -22,6 +24,18 @@ export class Order {
   user: User;
 
   @ApiProperty()
+  @OneToMany(() => OrderItem, (item) => item.order, {
+    eager: true,
+    cascade: ['insert', 'update', 'soft-remove'],
+    onDelete: 'CASCADE',
+  })
+  items: OrderItem[];
+
+  @ApiProperty()
+  @Column({ type: 'decimal', name: 'total_price' })
+  public totalPrice: number;
+
+  @ApiProperty()
   @CreateDateColumn({ name: 'created_at' })
   public createdAt: Date;
 
@@ -31,4 +45,6 @@ export class Order {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   public deletedAt: Date;
+
+  
 }
