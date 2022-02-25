@@ -37,6 +37,7 @@ export class OrderController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
   async findOne(@Param('id') id: string) {
     const order = await this.orderService.findOne(id);
     return instanceToInstance(order);

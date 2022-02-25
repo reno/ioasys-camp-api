@@ -1,3 +1,9 @@
+const { OrderItem } = require('./src/shared/entities/order/item.entity');
+const { Order } = require('./src/shared/entities/order/order.entity');
+const { ProductInventory } = require('./src/shared/entities/product/inventory.entity');
+const { Product } = require('./src/shared/entities/product/product.entity');
+const { User } = require('./src/shared/entities/user/user.entity');
+
 require('dotenv/config');
 
 module.exports = {
@@ -9,7 +15,13 @@ module.exports = {
   database: process.env.DB_NAME,
   synchronize: false,
   logging: false,
-  entities: ['dist/shared/entities/**/*.entity.js'],
+  entities: [ //'dist/shared/entities/**/*.entity.js'
+    User,
+    Product,
+    ProductInventory,
+    Order,
+    OrderItem
+  ],
   migrations: ['infra/typeorm/migrations/*.ts'],
   cli: {
     entitiesDir: 'src/shared/entities/',

@@ -45,6 +45,4 @@ export class Order {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   public deletedAt: Date;
-
-  
 }

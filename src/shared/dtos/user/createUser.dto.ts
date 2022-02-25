@@ -33,7 +33,7 @@ export class CreateUserDTO {
   @IsString()
   @IsNotEmpty()
   //@Min(8)
-  // @Matches(PASSWORD_REGEX, { message: 'password-is-too-weak' }) -> PASSWORD_REGEX: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[`~!@#$%^&*=(+){}|'";\\:[><.\],?/-]).{8,}$/
+  @Matches((/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[`~!@#$%^&*=(+){}|'";\\:[><.\],?/-]).{8,}$/), { message: 'password-is-too-weak' })
   public password: string;
 
   @ApiProperty()
