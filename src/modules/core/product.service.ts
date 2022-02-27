@@ -9,6 +9,7 @@ import { ProductRepository } from './repository/product.repository';
 import { InventoryRepository } from './repository/inventory.repository';
 import { Product } from '@shared/entities/product/product.entity';
 import { CreateProductDTO } from '@shared/dtos/product/createProduct.dto';
+import { UpdateProductDTO } from '@shared/dtos/product/updateProduct.dto';
 import { PG_DUPLICATED_ERROR } from '@shared/constants/errors';
 
 @Injectable()
@@ -38,6 +39,19 @@ export class ProductService {
       }
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async update(id: string, updateProductDTO: UpdateProductDTO): Promise<Product> {
+    let product: Product = await this.productRepository.findById(id);
+    if (!product) {
+      throw new HttpException("Product doesn't exist", HttpStatus.BAD_REQUEST,);
+    }
+    const data = {
+        ...product,
+        ...updateProductDTO,
+    };
+    await this.productRepository.save(data);
+    return this.productRepository.findById(id);
   }
 
   async remove(id: string): Promise<Product> {

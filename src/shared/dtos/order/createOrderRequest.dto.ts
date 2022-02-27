@@ -11,7 +11,11 @@ import {
 
 
 export class CreateOrderItemRequestDTO {
-  @ApiProperty()
+  @ApiProperty({
+    description: 'product id',
+    type: 'string',
+    format: 'uuid'
+  })
   @IsNotEmpty()
   public product: Product;
 

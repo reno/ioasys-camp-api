@@ -17,6 +17,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateProductDTO } from '@shared/dtos/product/createProduct.dto';
+import { UpdateProductDTO } from '@shared/dtos/product/updateProduct.dto';
 import { Product } from '@shared/entities/product/product.entity';
 import { AdminGuard } from '@shared/guards/admin.guard';
 import { instanceToInstance } from 'class-transformer';
@@ -48,6 +49,13 @@ export class ProductController {
   })
   public async create(@Body() createProductDTO: CreateProductDTO) {
     const product = await this.productService.create(createProductDTO);
+    return instanceToInstance(product);
+  }
+
+  @Patch(':id')
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  async update(@Param('id') id: string, @Body() updateProductDTO: UpdateProductDTO,){
+    const product = await this.productService.update(id, updateProductDTO);
     return instanceToInstance(product);
   }
   
