@@ -24,7 +24,7 @@ import { AdminGuard } from '@shared/guards/admin.guard';
 import { instanceToInstance } from 'class-transformer';
 import { OrderService } from './order.service';
 
-ApiTags('Orders')
+@ApiTags('Orders')
 @Controller('orders')
 export class OrderController {
   constructor(private orderService: OrderService) {}

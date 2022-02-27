@@ -23,7 +23,7 @@ import { AdminGuard } from '@shared/guards/admin.guard';
 import { instanceToInstance } from 'class-transformer';
 import { ProductService } from './product.service';
 
-ApiTags('Products')
+@ApiTags('Products')
 @Controller('products')
 export class ProductController {
   constructor(private productService: ProductService) {}
