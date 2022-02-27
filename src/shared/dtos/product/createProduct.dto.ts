@@ -37,7 +37,7 @@ export class CreateProductDTO {
   @IsNotEmpty()
   public price: number;
 
-  @ApiProperty()
+  @ApiProperty({type: CreateInventoryDTO, isArray: true})
   @ValidateNested()
   @Type(() => CreateInventoryDTO)
   public inventories: CreateInventoryDTO[];

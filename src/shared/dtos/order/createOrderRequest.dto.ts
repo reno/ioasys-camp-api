@@ -27,7 +27,7 @@ export class CreateOrderItemRequestDTO {
 }
 
 export class CreateOrderRequestDTO {
-  @ApiProperty()
+  @ApiProperty({type: CreateOrderItemRequestDTO, isArray: true})
   @ValidateNested()
   @Type(() => CreateOrderItemRequestDTO)
   public items: CreateOrderItemRequestDTO[];
